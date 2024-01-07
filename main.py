@@ -2,8 +2,13 @@ import random
 from collections import deque
 
 def apart_game():
-    print("\n아파트 게임을 시작합니다\n")
-    hands_3 = deque(random.sample(game_people * 2, g_num * 2))
+    print("\n。　♡ 。　　♡。　　♡\n")
+    print("♡。　＼　　｜　　／。　♡\n")
+    print("　\t아파트 게임\n")
+    print("♡。　／　　｜　　＼。　♡\n")
+    print("。　♡。 　　。　　♡。\n")
+    print("\n--------!!아파트 게임을 시작합니다!!--------\n")
+    hands_3 = deque(random.sample(game_people + game_people, g_num * 2))
 
     tagger_3 = random.choice(game_people)
     print(f"\n술래는 {tagger_3}입니다!")
@@ -23,7 +28,7 @@ def apart_game():
         print(f"\n{hand_3} : {i}층!")
 
         if i == floor_num_3:
-            print(f"\n\n누가 술을 마셔 {hand_3}가(이) 술을 마셔 원샷~")
+            print(f"\n\n누가 술을 마셔 {hand_3}가(이) 술을 마셔 원샷~~~\n")
             for j in range(1, g_num):
                 if game_people[j] == hand_3:
                     people_alc[j] -= 1
