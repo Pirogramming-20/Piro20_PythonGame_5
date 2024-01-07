@@ -231,7 +231,7 @@ while(True):
   elif(game_num == '3'):
     Game1()
   elif(game_num == '4'):
-    Game1()
+    Game4()
 
   if(0 in people_alc):
     print("{}이(가 ) 전사했습니다... 꿈나라에서는 편히 쉬시길...zzz".format(game_people[people_alc.index(0)]))
