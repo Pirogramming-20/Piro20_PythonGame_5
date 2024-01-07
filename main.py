@@ -1,7 +1,7 @@
-import random
-from collections import deque
-
 def apart_game():
+    import random
+    from collections import deque
+
     print("\n。　♡ 。　　♡。　　♡\n")
     print("♡。　＼　　｜　　／。　♡\n")
     print("　\t아파트 게임\n")
