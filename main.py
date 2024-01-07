@@ -70,6 +70,11 @@ def Game1():
         line.append(station.get_text())
     sub_line.append(line)
 
+  if(game_people[0] == player_name):
+    betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
+  else:
+    betting = rand_input(1,3)
+    print("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : ",betting)
 
   print("지하철~ 지하철~ 몇호선~ 몇호선~")
   line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요!(1~9 중 하나를 입력) : "))
@@ -92,8 +97,8 @@ def Game1():
         if(rand_input >= (sub_now_len)):
           print(game_people[i] ,' : ...')
           print("시간 초과! ",game_people[i],"님이 게임에서 패배하셨습니다!")
-          drunk_alc[i] += 1
-          people_alc[i] -= 1
+          drunk_alc[i] += betting
+          people_alc[i] -= betting
           check1 = True
           time.sleep(1)
           break
@@ -103,15 +108,15 @@ def Game1():
       #해당 호선에 없는 지하철 역을 말할 경우 게임패배
       if(not(sub1 in sub_now)):
         print("오답입니다! " ,game_people[i],"님이 게임에서 패배하셨습니다!")
-        drunk_alc[i] += 1
-        people_alc[i] -= 1
+        drunk_alc[i] += betting
+        people_alc[i] -= betting
         check1 = True
         time.sleep(1)
         break
       elif(sub1 in record1):
         print("중복된 답입니다! " ,game_people[i],"님이 게임에서 패배하셨습니다!")
-        drunk_alc[i] += 1
-        people_alc[i] -= 1
+        drunk_alc[i] += betting
+        people_alc[i] -= betting
         check1 = True
         time.sleep(1)
         break
