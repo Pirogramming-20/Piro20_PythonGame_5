@@ -100,8 +100,9 @@ def game2():
 ######################################################################################################
 ######################################################################################################
 def Game4():
-
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("~~~~~~~~~~~~~~~~~ 3,6,9... 3,6,9..... 3,6,9..... 3,6,9~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     current_number = 1
     player_turn = 0
@@ -113,11 +114,11 @@ def Game4():
         for digit in str(current_number):
             if digit in ['3', '6', '9']:
                 correct_response += 'X'
-                clap = True
 
         # 진짜 플레이어
         if game_people[player_turn] == player_name:
-            player_input = input(f"{player_name}, 게임을 진행할 숫자를 입력하세요! : ").strip().upper()
+            player_input = input(f"{player_name}, 게임을 진행할 숫자를 입력하세요 : ").strip().upper()
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         # NPC
         else:
           if correct_response:  # 3,6,9 일 때
@@ -141,7 +142,7 @@ def Game4():
           print(f"{game_people[player_turn]} : {player_input}")
 
         game_sequence += player_input + " → "
-        print("현재 진행 중: " + game_sequence.rstrip(" → "))
+        print("~~~~~~~~현재 진행 상황:~~~~~~~~~    " + game_sequence.rstrip(" → "))
 
         # 승패 결정
         if (correct_response and player_input != correct_response) or (not correct_response and player_input != str(current_number)):
@@ -216,7 +217,7 @@ while(True):
   if(game_people[0] != player_name):
     exit = input("술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 \"exit\"를, 계속하고 싶으면 아무키나 입력해 주세요 ! : ")
     game_num = random.randint(1,4)
-    game_num = ("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : {}".format(game_people[0],game_num))
+    # game_num = ("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : {}".format(game_people[0],game_num))
     if (exit == 'exit'):
       print("게임을 종료합니다")
       sys.exit()
@@ -224,14 +225,14 @@ while(True):
     game_num = input("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : ".format(game_people[0]))
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("{} 님이 게임을 선택하셨습니다! ".format(game_people[0]))
-  if(game_num == '1'):
-    Game1()
-  elif(game_num == '2'):
-    game2()
-  elif(game_num == '3'):
-    Game1()
-  elif(game_num == '4'):
-    Game4()
+  if game_num == '1' or game_num == 1:
+        Game1()  
+  elif game_num == '2' or game_num == 2:
+        game2()  
+  elif game_num == '3' or game_num == 3:
+        Game1()  
+  elif game_num == '4' or game_num == 4:
+        Game4()
 
   if(0 in people_alc):
     print("{}이(가 ) 전사했습니다... 꿈나라에서는 편히 쉬시길...zzz".format(game_people[people_alc.index(0)]))
