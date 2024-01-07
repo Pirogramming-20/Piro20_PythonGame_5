@@ -30,7 +30,7 @@ def apart_game():
 
         if i == floor_num_3:
             print(f"\n\n누가 술을 마셔 {hand_3}가(이) 술을 마셔 원샷~~~\n")
-            for j in range(1, g_num):
+            for j in range(0, g_num):
                 if game_people[j] == hand_3:
                     people_alc[j] -= 1
                     drunk_alc[j] += 1
