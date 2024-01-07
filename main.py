@@ -130,21 +130,104 @@ def game2():
 
           random_command2 = random.randint(0, len(commands2) - 1)
 
-          print(f"왕의 {i2}번째 지시: {game_people[pick_num2-1]}({pick_num2}번)이(가) " + commands2[random_command2])
+          print(f"왕의 {i2}번째 지시: {game_people[pick_num2-1]}이(가) " + commands2[random_command2])
           if random_command2 == 3:
               drunk_alc[pick_num2-1] += 1
               people_alc[pick_num2-1] -= 1
               break
 
 ######################################################################################################
+######################################################################################################
+def Game4():
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~ 3,6,9... 3,6,9..... 3,6,9..... 3,6,9~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
+    current_number = 1
+    player_turn = 0
+    game_sequence = "" 
+
+    while True:
+        correct_response = ''
+        clap = False
+        for digit in str(current_number):
+            if digit in ['3', '6', '9']:
+                correct_response += 'X'
+
+        # 진짜 플레이어
+        if game_people[player_turn] == player_name:
+            player_input = input(f"{player_name}, 게임을 진행할 숫자를 입력하세요 : ").strip().upper()
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        # NPC
+        else:
+          if correct_response:  # 3,6,9 일 때
+            npc_mistake = random.choice([True, False])
+            # NPC가 실수를 한 케이스
+            if npc_mistake:
+              incorrect_response_type = random.choice([1, 2])
+              # 박수 대신 숫자를 말함
+              if incorrect_response_type == 1:
+                player_input = str(current_number)
+              # 박수 개수 틀림
+              else:
+                num_of_X = random.randint(1, len(correct_response) + 1)
+                player_input = 'X' * num_of_X
+            # # NPC가 정답을 말함 케이스
+            else:
+              player_input = correct_response 
+          else: # 3,6,9가 아닐 때
+                player_input = str(current_number)
+
+          print(f"{game_people[player_turn]} : {player_input}")
+
+        game_sequence += player_input + " → "
+        print("~~~~~~~~현재 진행 상황:~~~~~~~~~    " + game_sequence.rstrip(" → "))
+
+        # 승패 결정
+        if (correct_response and player_input != correct_response) or (not correct_response and player_input != str(current_number)):
+            print(f"오답입니다! {game_people[player_turn]} 님이 게임에서 패배하셨습니다!")
+            # 술을 마시는 경우
+            drunk_alc[player_turn] += 1  
+            people_alc[player_turn] -= 1  
+            return
+
+        # 다음 사람 차례로 넘기기
+        current_number += 1
+        player_turn = (player_turn + 1) % len(game_people)
+######################################################################################################
+def print_remain_alc():
+   for i in range(len(game_people)):
+    print("{}은(는 ) 지금까지 {}! 치사량까지 {}".format(game_people[i], drunk_alc[i], people_alc[i]))
+######################################################################################################
+def get_valid_input(prompt, valid_values):
+    while True:
+        try:
+            value = input(prompt)
+            if value.lower() in valid_values:
+                return value.lower()
+            print("입력이 잘못되었습니다. 다시 입력해주세요.")
+        except ValueError:
+            print("입력이 잘못되었습니다. 다시 입력해주세요.")
+
+def get_valid_number(prompt, min_value, max_value):
+    while True:
+        try:
+            number = int(input(prompt))
+            if min_value <= number <= max_value:
+                return number
+            else:
+                print(f" {min_value} 과 {max_value} 사이 입력해주세요.")
+        except ValueError:
+            print("입력이 잘못되었습니다. 다시 입력해주세요.")
+######################################################################################################
+            
 import sys
 import random
 
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("게임시작")
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-y_or_n = input("게임을 진행할까요? (y/n) : ")
+y_or_n = get_valid_input("게임을 진행할까요? (y/n) : ", ['y', 'n'])
 if(y_or_n == 'n'):
   print("게임을 종료합니다")
   sys.exit()
@@ -160,10 +243,10 @@ print("{:>27}".format("5. 소주 두병 이상(10잔)"))
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 #본인 주량 설정
-player_alc = int(input("당신의 치사량(주량)은 얼마만큼인가요?(1~5을 선택해주세요 ) : "))
+player_alc = get_valid_number("당신의 치사량(주량)은 얼마만큼인가요?(1~5을 선택해주세요 ) : ", 1, 5)
 
 #같이 취할 친구 찾기
-g_num = int(input("함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!) : "))
+g_num = get_valid_number("함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!) : ", 0, 3)
 game_people = [player_name]
 people_alc = [player_alc * 2]
 drunk_alc = [0]
@@ -199,28 +282,62 @@ while(True):
   if(game_people[0] != player_name):
     exit = input("술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 \"exit\"를, 계속하고 싶으면 아무키나 입력해 주세요 ! : ")
     game_num = random.randint(1,4)
-    game_num = ("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : {}".format(game_people[0],game_num))
+    # game_num = ("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : {}".format(game_people[0],game_num))
     if (exit == 'exit'):
       print("게임을 종료합니다")
       sys.exit()
   else:
-    game_num = input("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : ".format(game_people[0]))
+    game_num = get_valid_number("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : ".format(game_people[0]), 1, 4)
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("{} 님이 게임을 선택하셨습니다! ".format(game_people[0]))
-  if(game_num == '1'):
-    Game1()
-  elif(game_num == '2'):
-    game2()
-  elif(game_num == '3'):
-    apart_game()
-  elif(game_num == '4'):
-    Game1()
+
+  if game_num == '1' or game_num == 1:
+        Game1()  
+  elif game_num == '2' or game_num == 2:
+        game2()  
+  elif game_num == '3' or game_num == 3:
+        apart_game()  
+  elif game_num == '4' or game_num == 4:
+        Game4()
+
 
   if(0 in people_alc):
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print_remain_alc()
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print('='*60)
+    print('='*60)
+    print("\n")
+    print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣤⣤⣤⣶⣶⣷⣤⣀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⣶⣶⠀⠀⠀⠀⣠⣾⣿⣿⡇⠀⣿⣿⣿⣿⠿⠛⠉⠉⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⠀⠀⠀⠀⠀⢀⣿⣿⣶⡀⠀⠀⠀⠀⠀⣾⣿⣿⣿⡄⠀⢀⣴⣿⣿⣿⣿⠁⢸⣿⣿⣿⣀⣤⡀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⣠⣴⣶⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⣼⣿⣿⣿⣧⠀⠀⠀⠀⢰⣿⣿⣿⣿⣇⣠⣿⣿⣿⣿⣿⡏⢠⣿⣿⣿⣿⣿⡿⠗⠂⠀⠀
+    ⠀⠀⠀⣰⣾⣿⣿⠟⠛⠉⠉⠉⠉⠋⠀⠀⠀⣰⣿⣿⣿⣿⣿⣇⣠⣤⣤⣿⣿⣿⢿⣿⣿⣿⣿⢿⣿⣿⡿⠀⣼⣿⣿⡟⠉⠁⢀⣀⡄⠀⠀
+    ⠀⢀⣾⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣴⣿⣿⣿⣿⡿⣿⣿⣿⡏⠈⢿⣿⣿⠏⣾⣿⣿⠃⢠⣿⣿⣿⣶⣶⣿⣿⣿⡷⠦⠀
+    ⢠⣾⣿⡿⠀⠀⠀⣀⣠⣴⣶⣿⣿⡷⠀⣠⣿⣿⣿⣿⡿⠟⣿⣿⣿⣠⣿⣿⣿⠀⠀⠀⠀⠁⢸⣿⣿⡏⠀⣼⣿⣿⣿⠿⠛⠛⠉⠀⠀⠀⠀
+    ⢸⣿⣿⠣⣴⣾⣿⣿⣿⣿⣿⣿⡿⠃⣰⣿⣿⣿⠋⠁⠀⠀⠸⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠸⠿⠿⠀⠀⠛⠛⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠸⣿⣿⣆⣉⣻⣭⣿⣿⣿⡿⠋⠀⠀⢿⣿⡿⠁⠀⠀⠀⠀⠀⠹⠟⠛⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠙⠿⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⣶⣶⣶⣶⣦⣄⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣷⠄⣤⣤⣤⣤⣶⣾⣷⣴⣿⣿⣿⣿⠿⠿⠛⣻⣿⣿⣷⡄
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣄⠀⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⢀⣴⣿⠋⢠⣿⣿⣿⠿⠛⠋⠉⠛⣿⣿⣿⠏⢀⣤⣾⣿⣿⡿⠋⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣿⣿⠓⢹⣿⣿⣷⠀⠀⠀⠀⢀⣶⣿⡿⠁⠀⣾⣿⣿⣟⣠⣤⠀⠀⢸⣿⣿⣿⣾⣿⣿⣿⡟⠋⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⡿⠛⠉⠸⣿⣦⡈⣿⣿⣿⡇⠀⠀⣰⣿⣿⡿⠁⠀⢸⣿⣿⣿⣿⣿⠿⠷⢀⣿⣿⣿⣿⡿⠛⣿⣿⣿⡀⠀⠀⠀
+    ⠀⠀⠀⠀⢀⣼⣿⣿⡿⠋⠀⠀⠀⠀⣿⣿⣧⠘⣿⣿⣿⡀⣼⣿⣿⡟⠀⠀⢀⣿⣿⣿⠋⠁⠀⣀⣀⣼⣿⣿⡟⠁⠀⠀⠘⣿⣿⣧⠀⠀⠀
+    ⠀⠀⠀⠀⣼⣿⣿⡟⠀⠀⠀⠀⠀⣠⣿⣿⣿⠀⢹⣿⣿⣿⣿⣿⡟⠀⠀⠀⣼⣿⣿⣷⣶⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠸⣿⣿⡆⠀⠀
+    ⠀⠀⠀⠀⢹⣿⣿⣇⠀⠀⢀⣠⣴⣿⣿⣿⡿⠀⠈⣿⣿⣿⣿⡟⠀⠀⠀⢰⣿⣿⣿⠿⠟⠛⠉⠁⠸⢿⡟⠀⠀⠀⠀⠀⠀⠀⠘⠋⠁⠀⠀
+    ⠀⠀⠀⠀⠈⢻⣿⣿⣿⣾⣿⣿⣿⣿⣿⠟⠁⠀⠀⠸⣿⣿⡿⠁⠀⠀⠀⠈⠙⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⠿⠿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
+    print('='*60)
+    print('='*60)
     print("{}이(가 ) 전사했습니다... 꿈나라에서는 편히 쉬시길...zzz".format(game_people[people_alc.index(0)]))
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("{:>27}".format("다음에 술마시면 또 불러주세요~ 안녕 !"))
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    dur = False
+    break
 
   tmp1 = game_people.pop(0)
   game_people.append(tmp1)
