@@ -46,8 +46,58 @@ def Game1():
       record1.append(sub1)
     if(check1):
       break
+########################################################################################################
+# 왕게임
+# 랜덤으로 왕을 뽑고 랜덤하게 지시를 내림
+# 술 마시라는 지시를 내리면 게임종료
+# player가 왕이 되었을 시 지시를 직접 내린다 (이름을 먼저 말하고 "술"이 포함된 지시를 내리면 게임종료)
+def game2():
+  pick_king2 = random.randint(1, g_num+2)
+  #pick_king2 = 6
 
+  if pick_king2 == g_num + 2:
+      print(f"{player_name}이 왕입니다!!")
+  else:
+      print(f"{game_people[pick_king2-1]}이(가) 왕입니다!!")
 
+  can_pick_num2 = []
+  for k2 in range(1, g_num + 2):
+      if k2 != pick_king2:
+          can_pick_num2.append(k2)
+  
+  commands2 = ["뉴진스 춤춰~!",
+              "신나는 노래해~!",
+              "메로나 사와~!",
+              "술 마셔~!",
+              "안주 만들어 와~",
+              "성대모사 하나 하기!"]
+  i2 = 0
+  while True:
+      i2 += 1
+      if pick_king2 == g_num + 2:
+          x2 = input("지시를 입력하세요: ")
+          if "술" in x2:
+              print(f"왕의 {i2}번째 지시:  " + x2)
+              ##x2에서 처음 두글자를 따로 저장해서 game_people 안에 있는 값과 비교하기
+              for i in range(len(game_people)-1):
+                  if x2[:2] == game_people[i]:
+                     pick_num2 = i + 1  # 왕이 지목한 사람의 인덱스
+                     drunk_alc[pick_num2-1] += 1
+                     people_alc[pick_num2-1] -= 1
+              break
+          print(f"왕의 {i2}번째 지시:  " + x2)
+      else:
+          pick_num2 = random.choice(can_pick_num2)
+
+          random_command2 = random.randint(0, len(commands2) - 1)
+
+          print(f"왕의 {i2}번째 지시: {game_people[pick_num2-1]}({pick_num2}번)이(가) " + commands2[random_command2])
+          if random_command2 == 3:
+              drunk_alc[pick_num2-1] += 1
+              people_alc[pick_num2-1] -= 1
+              break
+
+######################################################################################################
 
 import sys
 import random
@@ -116,7 +166,7 @@ while(True):
   if(game_num == '1'):
     Game1()
   elif(game_num == '2'):
-    Game1()
+    game2()
   elif(game_num == '3'):
     Game1()
   elif(game_num == '4'):
@@ -134,3 +184,4 @@ while(True):
   people_alc.append(tmp2)
   tmp3 = drunk_alc.pop(0)
   drunk_alc.append(tmp3)
+
