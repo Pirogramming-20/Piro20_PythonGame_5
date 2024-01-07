@@ -72,7 +72,7 @@ def Game1():
 
 
   print("지하철~ 지하철~ 몇호선~ 몇호선~")
-  line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요! : "))
+  line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요!(1~9 중 하나를 입력) : "))
   print(f"게임을 진행하게 될 지하철은 {line_input}호선 입니다!!!")
   sub_now = sub_line[line_input]
   sub_now_len = len(sub_now)
@@ -88,13 +88,14 @@ def Game1():
         sub1 = input("지하철역 이름을 입력하세요! : ")
       #그 외의 경우에는 지하철 개수의 1.5배 범위에서 랜덤으로 정수값을 받아 인덱스 밖의 범위일 경우 시간초과를 출력 및 게임 패배
       else:
-        rand_input = random.randint(0,int(sub_now_len * 1.2 - 1))
+        rand_input = random.randint(0,int(sub_now_len * 1.1 - 1))
         if(rand_input >= (sub_now_len)):
           print(game_people[i] ,' : ...')
           print("시간 초과! ",game_people[i],"님이 게임에서 패배하셨습니다!")
           drunk_alc[i] += 1
           people_alc[i] -= 1
           check1 = True
+          time.sleep(1)
           break
         sub1= sub_now[rand_input]
       print(game_people[i] ,' : ',  sub1)
@@ -105,14 +106,17 @@ def Game1():
         drunk_alc[i] += 1
         people_alc[i] -= 1
         check1 = True
+        time.sleep(1)
         break
       elif(sub1 in record1):
         print("중복된 답입니다! " ,game_people[i],"님이 게임에서 패배하셨습니다!")
         drunk_alc[i] += 1
         people_alc[i] -= 1
         check1 = True
+        time.sleep(1)
         break
       record1.append(sub1)
+      time.sleep(1)
     if(check1):
       break
 ########################################################################################################
@@ -264,6 +268,7 @@ def get_valid_number(prompt, min_value, max_value):
             
 import sys
 import random
+import time
 
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("게임시작")
@@ -304,7 +309,7 @@ for i in range(g_num):
   people_alc.append(rand_num_alc*2)
   drunk_alc.append(0)
   print("오늘 함께 취할 친구는 {}입니다! (치사량 : {})".format(game_people[i+1], people_alc[i+1]))
-
+time.sleep(1)
 #여기서부터 반복예정
 #게임 메뉴
 dur = True
