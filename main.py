@@ -118,7 +118,7 @@ def game2():
           if "술" in x2:
               print(f"왕의 {i2}번째 지시:  " + x2)
               ##x2에서 처음 두글자를 따로 저장해서 game_people 안에 있는 값과 비교하기
-              for i in range(len(game_people)-1):
+              for i in range(len(game_people)):
                   if x2[:2] == game_people[i]:
                      pick_num2 = i + 1  # 왕이 지목한 사람의 인덱스
                      drunk_alc[pick_num2-1] += 1
@@ -209,6 +209,10 @@ def get_valid_input(prompt, valid_values):
         except ValueError:
             print("입력이 잘못되었습니다. 다시 입력해주세요.")
 
+def print_remain_alc():
+   for i in range(len(game_people)):
+    print("{}은(는 ) 지금까지 {}! 치사량까지 {}".format(game_people[i], drunk_alc[i], people_alc[i]))
+
 def get_valid_number(prompt, min_value, max_value):
     while True:
         try:
@@ -266,16 +270,16 @@ for i in range(g_num):
 
 #여기서부터 반복예정
 #게임 메뉴
-while(True):
+dur = True
+while(dur):
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-  for i in range(len(game_people)):
-    print("{}은(는 ) 지금까지 {}! 치사량까지 {}".format(game_people[i], drunk_alc[i], people_alc[i]))
+  print_remain_alc()
 
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("~~~~~~~~~~~~~~오늘의 Alcohol Game~~~~~~~~~~~~~~~")
   print("{:>27}".format("1. 지하철"))
-  print("{:>27}".format("2. 금지어 or 왕게임"))
+  print("{:>27}".format("2. 왕게임"))
   print("{:>27}".format("3. 아파트"))
   print("{:>27}".format("4. 3 6 9"))
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -337,6 +341,7 @@ while(True):
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     dur = False
+
     break
 
   tmp1 = game_people.pop(0)
