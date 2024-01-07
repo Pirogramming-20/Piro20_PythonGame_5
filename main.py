@@ -79,7 +79,7 @@ def game2():
           if "술" in x2:
               print(f"왕의 {i2}번째 지시:  " + x2)
               ##x2에서 처음 두글자를 따로 저장해서 game_people 안에 있는 값과 비교하기
-              for i in range(len(game_people)-1):
+              for i in range(len(game_people)):
                   if x2[:2] == game_people[i]:
                      pick_num2 = i + 1  # 왕이 지목한 사람의 인덱스
                      drunk_alc[pick_num2-1] += 1
