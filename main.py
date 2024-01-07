@@ -98,7 +98,63 @@ def game2():
               break
 
 ######################################################################################################
+######################################################################################################
+def Game4():
 
+    print("~~~~~~~~~~~~~~~~~ 3,6,9... 3,6,9..... 3,6,9..... 3,6,9~~~~~~~~~~~~~~~~~")
+
+    current_number = 1
+    player_turn = 0
+    game_sequence = "" 
+
+    while True:
+        correct_response = ''
+        clap = False
+        for digit in str(current_number):
+            if digit in ['3', '6', '9']:
+                correct_response += 'X'
+                clap = True
+
+        # 진짜 플레이어
+        if game_people[player_turn] == player_name:
+            player_input = input(f"{player_name}, 게임을 진행할 숫자를 입력하세요! : ").strip().upper()
+        # NPC
+        else:
+          if correct_response:  # 3,6,9 일 때
+            npc_mistake = random.choice([True, False])
+            # NPC가 실수를 한 케이스
+            if npc_mistake:
+              incorrect_response_type = random.choice([1, 2])
+              # 박수 대신 숫자를 말함
+              if incorrect_response_type == 1:
+                player_input = str(current_number)
+              # 박수 개수 틀림
+              else:
+                num_of_X = random.randint(1, len(correct_response) + 1)
+                player_input = 'X' * num_of_X
+            # # NPC가 정답을 말함 케이스
+            else:
+              player_input = correct_response 
+          else: # 3,6,9가 아닐 때
+                player_input = str(current_number)
+
+          print(f"{game_people[player_turn]} : {player_input}")
+
+        game_sequence += player_input + " → "
+        print("현재 진행 중: " + game_sequence.rstrip(" → "))
+
+        # 승패 결정
+        if (correct_response and player_input != correct_response) or (not correct_response and player_input != str(current_number)):
+            print(f"오답입니다! {game_people[player_turn]} 님이 게임에서 패배하셨습니다!")
+            # 술을 마시는 경우
+            drunk_alc[player_turn] += 1  
+            people_alc[player_turn] -= 1  
+            return
+
+        # 다음 사람 차례로 넘기기
+        current_number += 1
+        player_turn = (player_turn + 1) % len(game_people)
+######################################################################################################
 import sys
 import random
 
