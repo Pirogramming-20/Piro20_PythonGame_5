@@ -162,7 +162,7 @@ def Game4():
         # 진짜 플레이어
         if game_people[player_turn] == player_name:
             print()
-            player_input = input(f"{player_name},님 게임을 진행할 숫자 또는 'X'👏 를 입력하세요 : ").strip().upper()
+            player_input = input(f"{player_name},님 게임을 진행할 [숫자] 또는 ['X'👏] 를 입력하세요 : ").strip().upper()
             print()
         # NPC
         else:
@@ -192,6 +192,7 @@ def Game4():
         # 승패 결정
         if (correct_response and player_input != correct_response) or (not correct_response and player_input != str(current_number)):
             print(f"오답입니다! {game_people[player_turn]} 님이 게임에서 패배하셨습니다!")
+            print(f"\n누가 술을 마셔 {game_people[player_turn]} 가(이) 술을 마셔 원샷~~~\n")
             # 술을 마시는 경우
             drunk_alc[player_turn] += 1  
             people_alc[player_turn] -= 1  
