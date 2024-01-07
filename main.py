@@ -130,9 +130,14 @@ people_alc = [player_alc * 2]
 drunk_alc = [0]
 rand_name = ["기택", "재관", "웨이", "현정"]
 for i in range(g_num):
-  rand_num_people = random.randint(0,3)
   rand_num_alc = random.randint(1,5)
-  game_people.append(rand_name[rand_num_people])
+  while True:
+    rand_num_people = random.randint(0,3)
+    if rand_name[rand_num_people] not in game_people:
+      game_people.append(rand_name[rand_num_people])
+      break
+    else:
+       continue
   people_alc.append(rand_num_alc*2)
   drunk_alc.append(0)
   print("오늘 함께 취할 친구는 {}입니다! (치사량 : {})".format(game_people[i+1], people_alc[i+1]))
@@ -184,4 +189,3 @@ while(True):
   people_alc.append(tmp2)
   tmp3 = drunk_alc.pop(0)
   drunk_alc.append(tmp3)
-
