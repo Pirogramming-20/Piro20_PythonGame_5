@@ -1,3 +1,42 @@
+def apart_game():
+    import random
+    from collections import deque
+
+    print("\n。　♡ 。　　♡。　　♡\n")
+    print("♡。　＼　　｜　　／。　♡\n")
+    print("　\t아파트 게임\n")
+    print("♡。　／　　｜　　＼。　♡\n")
+    print("。　♡。 　　。　　♡。\n")
+    print("\n--------!!아파트 게임을 시작합니다!!--------\n")
+    hands_3 = deque(random.sample(game_people + game_people, g_num * 2))
+
+    if game_people[0] == player_name:
+        tagger_3 = player_name
+        print(f"\n술래는 {tagger_3}입니다!")
+        floor_num_3 = int(input("\n층수를 입력하세요! : "))
+    else:
+        tagger_3 = game_people[0]
+        print(f"\n술래는 {tagger_3}입니다!")
+        floor_num_3 = random.randint(1, 5 * g_num)
+    
+    print("\n아파트 몇 층?")
+    print(f"\n{tagger_3} : 아파트 {floor_num_3}층!\n")
+
+
+    for i in range(1, floor_num_3 + 1):
+        hand_3 = hands_3.popleft()
+        hands_3.append(hand_3)
+        print(f"\n{hand_3} : {i}층!")
+
+        if i == floor_num_3:
+            print(f"\n\n누가 술을 마셔 {hand_3}가(이) 술을 마셔 원샷~~~\n")
+            for j in range(0, g_num):
+                if game_people[j] == hand_3:
+                    people_alc[j] -= 1
+                    drunk_alc[j] += 1
+                    return
+
+
 def Game1():
   import random
   import requests
@@ -79,7 +118,7 @@ def game2():
           if "술" in x2:
               print(f"왕의 {i2}번째 지시:  " + x2)
               ##x2에서 처음 두글자를 따로 저장해서 game_people 안에 있는 값과 비교하기
-              for i in range(len(game_people)-1):
+              for i in range(len(game_people)):
                   if x2[:2] == game_people[i]:
                      pick_num2 = i + 1  # 왕이 지목한 사람의 인덱스
                      drunk_alc[pick_num2-1] += 1
@@ -170,6 +209,10 @@ def get_valid_input(prompt, valid_values):
         except ValueError:
             print("입력이 잘못되었습니다. 다시 입력해주세요.")
 
+def print_remain_alc():
+   for i in range(len(game_people)):
+    print("{}은(는 ) 지금까지 {}! 치사량까지 {}".format(game_people[i], drunk_alc[i], people_alc[i]))
+
 def get_valid_number(prompt, min_value, max_value):
     while True:
         try:
@@ -227,16 +270,16 @@ for i in range(g_num):
 
 #여기서부터 반복예정
 #게임 메뉴
-while(True):
+dur = True
+while(dur):
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-  for i in range(len(game_people)):
-    print("{}은(는 ) 지금까지 {}! 치사량까지 {}".format(game_people[i], drunk_alc[i], people_alc[i]))
+  print_remain_alc()
 
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("~~~~~~~~~~~~~~오늘의 Alcohol Game~~~~~~~~~~~~~~~")
   print("{:>27}".format("1. 지하철"))
-  print("{:>27}".format("2. 금지어 or 왕게임"))
+  print("{:>27}".format("2. 왕게임"))
   print("{:>27}".format("3. 아파트"))
   print("{:>27}".format("4. 3 6 9"))
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -251,14 +294,16 @@ while(True):
     game_num = get_valid_number("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : ".format(game_people[0]), 1, 4)
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("{} 님이 게임을 선택하셨습니다! ".format(game_people[0]))
+
   if game_num == '1' or game_num == 1:
         Game1()  
   elif game_num == '2' or game_num == 2:
         game2()  
   elif game_num == '3' or game_num == 3:
-        Game4()  
+        apart_game()  
   elif game_num == '4' or game_num == 4:
         Game4()
+
 
   if(0 in people_alc):
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -296,6 +341,7 @@ while(True):
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     dur = False
+
     break
 
   tmp1 = game_people.pop(0)
