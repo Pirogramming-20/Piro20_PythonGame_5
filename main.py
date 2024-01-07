@@ -287,7 +287,7 @@ while(dur):
   print("{:>27}".format("1. 지하철"))
   print("{:>27}".format("2. 왕게임"))
   print("{:>27}".format("3. 아파트"))
-  print("{:>27}".format("4. 3 6 9"))
+  print("{:>29}".format("4. 3 6 9"))
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   if(game_people[0] != player_name):
     exit = input("술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 \"exit\"를, 계속하고 싶으면 아무키나 입력해 주세요 ! : ")
