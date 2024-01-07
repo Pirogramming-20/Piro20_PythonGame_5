@@ -210,7 +210,7 @@ while(True):
   elif(game_num == '2'):
     game2()
   elif(game_num == '3'):
-    apart_game
+    apart_game()
   elif(game_num == '4'):
     Game1()
 
