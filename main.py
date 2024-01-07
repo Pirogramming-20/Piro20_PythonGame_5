@@ -1,7 +1,7 @@
 def apart_game():
     import random
     from collections import deque
-  
+
     print("\n。　♡ 。　　♡。　　♡\n")
     print("♡。　＼　　｜　　／。　♡\n")
     print("　\t아파트 게임\n")
@@ -10,12 +10,13 @@ def apart_game():
     print("\n--------!!아파트 게임을 시작합니다!!--------\n")
     hands_3 = deque(random.sample(game_people + game_people, g_num * 2))
 
-    tagger_3 = random.choice(game_people)
-    print(f"\n술래는 {tagger_3}입니다!")
-
-    if tagger_3 == player_name:
+    if game_people[0] == player_name:
+        tagger_3 = player_name
+        print(f"\n술래는 {tagger_3}입니다!")
         floor_num_3 = int(input("\n층수를 입력하세요! : "))
     else:
+        tagger_3 = game_people[0]
+        print(f"\n술래는 {tagger_3}입니다!")
         floor_num_3 = random.randint(1, 5 * g_num)
     
     print("\n아파트 몇 층?")
@@ -34,6 +35,7 @@ def apart_game():
                     people_alc[j] -= 1
                     drunk_alc[j] += 1
                     return
+
 
 def Game1():
   import random
@@ -288,6 +290,7 @@ while(True):
     game_num = get_valid_number("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : ".format(game_people[0]), 1, 4)
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("{} 님이 게임을 선택하셨습니다! ".format(game_people[0]))
+
   if game_num == '1' or game_num == 1:
         Game1()  
   elif game_num == '2' or game_num == 2:
@@ -296,6 +299,7 @@ while(True):
         apart_game()  
   elif game_num == '4' or game_num == 4:
         Game4()
+
 
   if(0 in people_alc):
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
