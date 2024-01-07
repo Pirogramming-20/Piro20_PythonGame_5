@@ -139,9 +139,15 @@ def game2():
 ######################################################################################################
 ######################################################################################################
 def Game4():
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print("~~~~~~~~~~~~~~~~~ 3,6,9... 3,6,9..... 3,6,9..... 3,6,9~~~~~~~~~~~~~~~~~")
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print()
+    print("🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲")
+    print("  ###      ###      ###  ")
+    print("    #     #        #   # ")
+    print("  ###     ####      #### ")
+    print("    #     #   #        # ")
+    print("  ###      ###      ###  ")
+    print("🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲")
+    print()
 
     current_number = 1
     player_turn = 0
@@ -149,15 +155,15 @@ def Game4():
 
     while True:
         correct_response = ''
-        clap = False
         for digit in str(current_number):
             if digit in ['3', '6', '9']:
                 correct_response += 'X'
 
         # 진짜 플레이어
         if game_people[player_turn] == player_name:
-            player_input = input(f"{player_name}, 게임을 진행할 숫자를 입력하세요 : ").strip().upper()
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print()
+            player_input = input(f"{player_name},님 게임을 진행할 숫자 또는 'X'👏 를 입력하세요 : ").strip().upper()
+            print()
         # NPC
         else:
           if correct_response:  # 3,6,9 일 때
@@ -178,10 +184,10 @@ def Game4():
           else: # 3,6,9가 아닐 때
                 player_input = str(current_number)
 
-          print(f"{game_people[player_turn]} : {player_input}")
+          print(f"{game_people[player_turn]}👤: {player_input.replace('X', '👏')} ")
 
-        game_sequence += player_input + " → "
-        print("~~~~~~~~현재 진행 상황:~~~~~~~~~    " + game_sequence.rstrip(" → "))
+        game_sequence += player_input.replace('X', '👏') + " → "
+        print("~~~~~~~ 🎮 현재 진행 상황 🎮 ~~~~~~~~    " + game_sequence.rstrip(" → "))
 
         # 승패 결정
         if (correct_response and player_input != correct_response) or (not correct_response and player_input != str(current_number)):
