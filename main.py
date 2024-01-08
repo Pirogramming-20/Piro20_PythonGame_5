@@ -9,6 +9,11 @@ def apart_game():
     print("。　♡。 　　。　　♡。\n")
     print("\n--------!!아파트 게임을 시작합니다!!--------\n")
     hands_3 = deque(random.sample(game_people + game_people, g_num * 2))
+    if(game_people[0] == player_name):
+      betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
+    else:
+      betting = random.randint(1,3)
+    print(game_people[0],"이 이번판에 건 술은 ",betting,"잔입니다!")
 
     if game_people[0] == player_name:
         tagger_3 = player_name
@@ -27,13 +32,13 @@ def apart_game():
         hand_3 = hands_3.popleft()
         hands_3.append(hand_3)
         print(f"\n{hand_3} : {i}층!")
-
+        time.sleep(0.3)
         if i == floor_num_3:
             print(f"\n\n누가 술을 마셔 {hand_3}가(이) 술을 마셔 원샷~~~\n")
             for j in range(0, g_num):
                 if game_people[j] == hand_3:
-                    people_alc[j] -= 1
-                    drunk_alc[j] += 1
+                    people_alc[j] -= betting
+                    drunk_alc[j] += betting
                     return
 
 
@@ -73,12 +78,19 @@ def Game1():
   if(game_people[0] == player_name):
     betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
   else:
-    betting = rand_input(1,3)
-    print("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : ",betting)
+    betting = random.randint(1,3)
+  print(game_people[0],"이 이번판에 건 술은 ",betting,"잔입니다!")
 
-  print("지하철~ 지하철~ 몇호선~ 몇호선~")
-  line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요!(1~9 중 하나를 입력) : "))
-  print(f"게임을 진행하게 될 지하철은 {line_input}호선 입니다!!!")
+  print('''
+        🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋
+        지하철~ 지하철~ 몇호선~ 몇호선~
+        🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋
+        ''')
+  if(game_people[0] == player_name):
+    line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요!(1~9 중 하나를 입력) : "))
+  else:
+    line_input = random.randint(1,9)
+  print(f"{game_people[0]}이(가 ) 선택한 게임을 진행하게 될 지하철은 {line_input}호선 입니다!!!")
   sub_now = sub_line[line_input]
   sub_now_len = len(sub_now)
   record1 = []
@@ -103,7 +115,7 @@ def Game1():
           time.sleep(1)
           break
         sub1= sub_now[rand_input]
-      print(game_people[i] ,' : ',  sub1)
+      print(game_people[i] ,' : ',  sub1,"🚋🚋🚋")
 
       #해당 호선에 없는 지하철 역을 말할 경우 게임패배
       if(not(sub1 in sub_now)):
@@ -157,6 +169,7 @@ def game2():
   i2 = 0
   while True:
       i2 += 1
+      time.sleep(1)
       if pick_king2 == g_num + 2:
           x2 = input("지시를 입력하세요: ")
           if "술" in x2:
@@ -197,7 +210,14 @@ def Game4():
     player_turn = 0
     game_sequence = "" 
 
+    if(game_people[0] == player_name):
+      betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
+    else:
+      betting = random.randint(1,3)
+    print(game_people[0],"이 이번판에 건 술은 ",betting,"잔입니다!")
+
     while True:
+        time.sleep(1)
         correct_response = ''
         for digit in str(current_number):
             if digit in ['3', '6', '9']:
@@ -238,8 +258,8 @@ def Game4():
             print(f"오답입니다! {game_people[player_turn]} 님이 게임에서 패배하셨습니다!")
             print(f"\n누가 술을 마셔 {game_people[player_turn]} 가(이) 술을 마셔 원샷~~~\n")
             # 술을 마시는 경우
-            drunk_alc[player_turn] += 1  
-            people_alc[player_turn] -= 1  
+            drunk_alc[player_turn] += betting  
+            people_alc[player_turn] -= betting
             return
 
         # 다음 사람 차례로 넘기기
@@ -281,7 +301,16 @@ import random
 import time
 
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-print("게임시작")
+print('''
+   ####                                        #####     ##                         ##    
+  ##  ##                                      ##   ##    ##                         ##    
+ ##        ####    ##  ##    ####             #         #####    ####    ######    #####  
+ ##           ##   #######  ##  ##             #####     ##         ##    ##  ##    ##    
+ ##  ###   #####   ## # ##  ######                 ##    ##      #####    ##        ##    
+  ##  ##  ##  ##   ##   ##  ##                ##   ##    ## ##  ##  ##    ##        ## ## 
+   #####   #####   ##   ##   #####             #####      ###    #####   ####        ###  
+                                                                                          
+''')
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 y_or_n = get_valid_input("게임을 진행할까요? (y/n) : ", ['y', 'n'])
 if(y_or_n == 'n'):
