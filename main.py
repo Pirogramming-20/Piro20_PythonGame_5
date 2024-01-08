@@ -58,7 +58,7 @@ def Game1():
   texts_subway.append(soup1.select('td')[2722:2725])
   texts_subway.append(soup1.select('td')[2727:2729])
   texts_subway.append(soup1.select('td')[2731:2735])
-  texts_subway.append(soup1.select('td')[2727:2729])
+  texts_subway.append(soup1.select('td')[2737:2740])
   texts_subway.append(soup1.select('td')[2741])
   texts_subway.append(soup1.select('td')[2743])
   texts_subway.append(soup1.select('td')[2745])
