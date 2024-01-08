@@ -435,7 +435,7 @@ while(dur):
       print("게임을 종료합니다")
       sys.exit()
   else:
-    game_num = get_valid_number("🎮 {}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? 🎮: ".format(game_people[0]), 1, 4)
+    game_num = get_valid_number("🎮 {}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? 🎮: ".format(game_people[0]), 1, 5)
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("{} 님이 게임을 선택하셨습니다! ".format(game_people[0]))
 
@@ -447,7 +447,7 @@ while(dur):
      apart_game()
   elif game_num == '4' or game_num == 4:
      movie_rank_game()
-  elif game_num == '4' or game_num == 4:
+  elif game_num == '5' or game_num == 5:
       Game5()
 
   for person_alc in people_alc:
