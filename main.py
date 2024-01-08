@@ -229,7 +229,7 @@ def fetch_movie_data(url):
         soup = BeautifulSoup(response.content, 'html.parser')
         table = soup.find('table', class_='wikitable sortable')
         movies = []
-        for row in table.tbody.find_all('tr')[:50]:
+        for row in table.tbody.find_all('tr')[:68]:
             columns = row.find_all('td')
             if len(columns) >= 2:
                 rank = columns[0].text.strip()
