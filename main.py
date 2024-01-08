@@ -38,51 +38,90 @@ def apart_game():
 
 
 def Game1():
-  import random
   import requests
   from bs4 import BeautifulSoup 
 
   #url1에 주소를 받아오고 응답이 정상이 아닐경우 오류를 발생시킴
-  url1 = "https://coding232624.tistory.com/85"
+  url1 = "https://ko.wikipedia.org/wiki/%EC%88%98%EB%8F%84%EA%B6%8C_%EC%A0%84%EC%B2%A0%EC%97%AD_%EB%AA%A9%EB%A1%9D"
   response1 = requests.get(url1)
   response1.raise_for_status()
 
-  #받아온 주소에서 subway1을 클래스로 갖는 태그를 가져오고 그안에서 td태그를 text1에 저장 값을 저장할 딕셔너리 변수 dic1생성
+  #각 인덱스 번호에 맞게 지하철역 정보(html)를 저장함 ex)texts_subway[1] => 1호선 지하철역(html)
   soup1 = BeautifulSoup(response1.text,"html.parser")
-  texts_subway1 = soup1.find(class_="subway1")
-  texts1 = texts_subway1.find_all("td")
-  dic1 = {}
+  texts_subway = [[]]
+  texts_subway.append(soup1.select('td')[2713:2721])
+  texts_subway.append(soup1.select('td')[2722:2725])
+  texts_subway.append(soup1.select('td')[2727:2729])
+  texts_subway.append(soup1.select('td')[2731:2735])
+  texts_subway.append(soup1.select('td')[2727:2729])
+  texts_subway.append(soup1.select('td')[2741])
+  texts_subway.append(soup1.select('td')[2743])
+  texts_subway.append(soup1.select('td')[2745])
+  texts_subway.append(soup1.select('td')[2748])
 
-  #반복문 돌며 딕셔너리에 저장
-  for i in range(len(texts1)//2):
-    dic1[texts1[i*2].get_text()] = texts1[i*2+1].get_text()
+  #각 인덱스 번호에 맞게 지하철역 정보를 저장함 ex)sub_line[1] => 1호선 지하철역 
+  sub_line = []
+  # texts_subway1 = soup1.find('t')
+  for subway in texts_subway:
+    line = []
+    for text in subway:
+      result = text.find_all('a')
+      for station in result:
+        line.append(station.get_text())
+    sub_line.append(line)
 
+  if(game_people[0] == player_name):
+    betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
+  else:
+    betting = rand_input(1,3)
+    print("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : ",betting)
 
   print("지하철~ 지하철~ 몇호선~ 몇호선~")
-  line1 = (input("게임을 진행할 지하철의 노선을 입력하세요! : "))
+  line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요!(1~9 중 하나를 입력) : "))
+  print(f"게임을 진행하게 될 지하철은 {line_input}호선 입니다!!!")
+  sub_now = sub_line[line_input]
+  sub_now_len = len(sub_now)
   record1 = []
   check1 = False
-  while(True):    
+
+  #걸린 사람이 나올때까지 지속
+  while(True):
+    #한명씩 돌아가면서 진행    
     for i in range(len(game_people)):
+      #플레이어 차례일 경우 지하철역 이름을 입력받음
       if(game_people[i] == player_name):
         sub1 = input("지하철역 이름을 입력하세요! : ")
+      #그 외의 경우에는 지하철 개수의 1.5배 범위에서 랜덤으로 정수값을 받아 인덱스 밖의 범위일 경우 시간초과를 출력 및 게임 패배
       else:
-        sub1, line_now = random.choice(list(dic1.items()))
-      print(i ,' : ',  sub1)
-      if(sub1 in dic1 and not(sub1 in record1)):
-        if(dic1[sub1] != line1):
-          print("오답입니다!" ,game_people[i],"님이 게임에서 패배하셨습니다!")
-          drunk_alc[i] += 1
-          people_alc[i] -= 1
+        rand_input = random.randint(0,int(sub_now_len * 1.1 - 1))
+        if(rand_input >= (sub_now_len)):
+          print(game_people[i] ,' : ...')
+          print("시간 초과! ",game_people[i],"님이 게임에서 패배하셨습니다!")
+          drunk_alc[i] += betting
+          people_alc[i] -= betting
           check1 = True
+          time.sleep(1)
           break
-      else:
-        print("오답입니다!" ,game_people[i],"님이 게임에서 패배하셨습니다!")
-        drunk_alc[i] += 1
-        people_alc[i] -= 1
+        sub1= sub_now[rand_input]
+      print(game_people[i] ,' : ',  sub1)
+
+      #해당 호선에 없는 지하철 역을 말할 경우 게임패배
+      if(not(sub1 in sub_now)):
+        print("오답입니다! " ,game_people[i],"님이 게임에서 패배하셨습니다!")
+        drunk_alc[i] += betting
+        people_alc[i] -= betting
         check1 = True
+        time.sleep(1)
+        break
+      elif(sub1 in record1):
+        print("중복된 답입니다! " ,game_people[i],"님이 게임에서 패배하셨습니다!")
+        drunk_alc[i] += betting
+        people_alc[i] -= betting
+        check1 = True
+        time.sleep(1)
         break
       record1.append(sub1)
+      time.sleep(1)
     if(check1):
       break
 ########################################################################################################
@@ -125,9 +164,9 @@ def game2():
               ##x2에서 처음 두글자를 따로 저장해서 game_people 안에 있는 값과 비교하기
               for i in range(len(game_people)):
                   if x2[:2] == game_people[i]:
-                     pick_num2 = i + 1  # 왕이 지목한 사람의 인덱스
-                     drunk_alc[pick_num2-1] += 1
-                     people_alc[pick_num2-1] -= 1
+                      pick_num2 = i + 1  # 왕이 지목한 사람의 인덱스
+                      drunk_alc[pick_num2-1] += 1
+                      people_alc[pick_num2-1] -= 1
               break
           print(f"왕의 {i2}번째 지시:  " + x2)
       else:
@@ -144,9 +183,15 @@ def game2():
 ######################################################################################################
 ######################################################################################################
 def Game4():
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print("~~~~~~~~~~~~~~~~~ 3,6,9... 3,6,9..... 3,6,9..... 3,6,9~~~~~~~~~~~~~~~~~")
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print()
+    print("🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲")
+    print("  ###      ###      ###  ")
+    print("    #     #        #   # ")
+    print("  ###     ####      #### ")
+    print("    #     #   #        # ")
+    print("  ###      ###      ###  ")
+    print("🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲🌟🎲")
+    print()
 
     current_number = 1
     player_turn = 0
@@ -154,43 +199,44 @@ def Game4():
 
     while True:
         correct_response = ''
-        clap = False
         for digit in str(current_number):
             if digit in ['3', '6', '9']:
                 correct_response += 'X'
 
         # 진짜 플레이어
         if game_people[player_turn] == player_name:
-            player_input = input(f"{player_name}, 게임을 진행할 숫자를 입력하세요 : ").strip().upper()
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print()
+            player_input = input(f"{player_name},님 게임을 진행할 [숫자] 또는 [👏 (박수 대신 'X')] 를 입력하세요 : ").strip().upper()
+            print()
         # NPC
         else:
-          if correct_response:  # 3,6,9 일 때
-            npc_mistake = random.choice([True, False])
+          if correct_response:  # 3,6,9 해야 될 때
+            npc_mistake = random.choice([True, False]) # NPC가 실수를 할지 말지 결정 50% 확률
             # NPC가 실수를 한 케이스
             if npc_mistake:
-              incorrect_response_type = random.choice([1, 2])
-              # 박수 대신 숫자를 말함
+              incorrect_response_type = random.choice([1, 2]) # 50% 확률로 (1) , (2) 케이스 결정
+              # (1) 박수 대신 숫자를 말함
               if incorrect_response_type == 1:
                 player_input = str(current_number)
-              # 박수 개수 틀림
+              # (2) 박수 개수 틀림
               else:
                 num_of_X = random.randint(1, len(correct_response) + 1)
                 player_input = 'X' * num_of_X
-            # # NPC가 정답을 말함 케이스
+            # NPC가 정답을 말함 케이스
             else:
               player_input = correct_response 
-          else: # 3,6,9가 아닐 때
+          else: # 3,6,9가 아닐 때 맞춰야 하는 숫자를 말함
                 player_input = str(current_number)
 
-          print(f"{game_people[player_turn]} : {player_input}")
+          print(f"{game_people[player_turn]}👤: {player_input.replace('X', '👏')} ")
 
-        game_sequence += player_input + " → "
-        print("~~~~~~~~현재 진행 상황:~~~~~~~~~    " + game_sequence.rstrip(" → "))
+        game_sequence += player_input.replace('X', '👏') + " → "
+        print("~~~~~~~ 🎮 현재 진행 상황 🎮 ~~~~~~~~    " + game_sequence.rstrip(" → "))
 
         # 승패 결정
         if (correct_response and player_input != correct_response) or (not correct_response and player_input != str(current_number)):
             print(f"오답입니다! {game_people[player_turn]} 님이 게임에서 패배하셨습니다!")
+            print(f"\n누가 술을 마셔 {game_people[player_turn]} 가(이) 술을 마셔 원샷~~~\n")
             # 술을 마시는 경우
             drunk_alc[player_turn] += 1  
             people_alc[player_turn] -= 1  
@@ -232,6 +278,7 @@ def get_valid_number(prompt, min_value, max_value):
             
 import sys
 import random
+import time
 
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("게임시작")
@@ -268,11 +315,11 @@ for i in range(g_num):
       game_people.append(rand_name[rand_num_people])
       break
     else:
-       continue
+      continue
   people_alc.append(rand_num_alc*2)
   drunk_alc.append(0)
   print("오늘 함께 취할 친구는 {}입니다! (치사량 : {})".format(game_people[i+1], people_alc[i+1]))
-
+time.sleep(1)
 #여기서부터 반복예정
 #게임 메뉴
 dur = True
@@ -286,7 +333,7 @@ while(dur):
   print("{:>27}".format("1. 지하철"))
   print("{:>27}".format("2. 왕게임"))
   print("{:>27}".format("3. 아파트"))
-  print("{:>27}".format("4. 3 6 9"))
+  print("{:>29}".format("4. 3 6 9"))
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   if(game_people[0] != player_name):
     exit = input("술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 \"exit\"를, 계속하고 싶으면 아무키나 입력해 주세요 ! : ")
