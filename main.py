@@ -172,7 +172,7 @@ def game2():
   while True:
       i2 += 1
       time.sleep(1)
-      if pick_king2 == g_num + 2:
+      if pick_king2 == g_num+2 or game_people[pick_king2-1] == player_name:
           x2 = input("지시를 입력하세요: ")
           if "술" in x2:
               print(f"왕의 {i2}번째 지시:  " + x2)
