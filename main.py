@@ -196,16 +196,13 @@ def game2():
               break
 
 ######################################################################################################
-def print_remain_alc():
-   for i in range(len(game_people)):
-    print("{}은(는 ) 지금까지 {}! 치사량까지 {}".format(game_people[i], drunk_alc[i], people_alc[i]))
-######################################################################################################
+
 def get_valid_input(prompt, valid_values):
     while True:
         try:
-            value = input(prompt)
-            if value.lower() in valid_values:
-                return value.lower()
+            value = input(prompt).strip().lower() # 공백 제거 및 소문자로 변환
+            if value in valid_values:
+                return value
             print("입력이 잘못되었습니다. 다시 입력해주세요.")
         except ValueError:
             print("입력이 잘못되었습니다. 다시 입력해주세요.")
@@ -217,7 +214,7 @@ def print_remain_alc():
 def get_valid_number(prompt, min_value, max_value):
     while True:
         try:
-            number = int(input(prompt))
+            number = int(input(prompt).strip())
             if min_value <= number <= max_value:
                 return number
             else:
@@ -272,7 +269,7 @@ def movie_rank_game():
               npc_decision = random.choice([True, False])  # NPC가 실수를 할지 말지 결정 50% 확률
               choice = correct_choice if npc_decision else ('2' if correct_choice == '1' else '1')
               print(f"관객수 더 높을것 같은 영화를 골라주세요? 👤👤\n\n1. 🎥 {movie1[1]}\n2. 🎥 {movie2[1]}\n")
-              print(f"{game_people[player_turn]} 가 {choice} 를 선택했습니다.")
+              print(f"{game_people[player_turn]}이가 {choice} 를 선택했습니다.")
 
           if choice == correct_choice:
               print("✅ 정답! 더 높은 관객수를 가진 영화는 {} 입니다.\n".format(movie1[1] if movie1[0] < movie2[0] else movie2[1]))
@@ -306,14 +303,14 @@ print('''
                                                                                           
 ''')
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-y_or_n = get_valid_input("게임을 진행할까요? (y/n) : ", ['y', 'n'])
+y_or_n = get_valid_input("🎮 게임을 진행할까요? (y/n) 🎮 : ", ['y', 'n'])
 if(y_or_n == 'n'):
   print("게임을 종료합니다")
   sys.exit()
 
 #플레이어 이름 설정
 player_name = input("오늘 거하게 취해볼 당신의 이름은? : ")
-print("~~~~~~~~~~~~~소주 기준 당신의 주량은?~~~~~~~~~~~~~")
+print("~~~~~~~~~~~~~🥃 소주 기준 당신의 주량은? 🥃~~~~~~~~~~~~~")
 print("{:>27}".format("1. 소주 반병(2잔)"))
 print("{:>27}".format("2. 소주 반병에서 한병(4잔)"))
 print("{:>27}".format("3. 소주 한병에서 한병 반(6잔)"))
@@ -325,7 +322,7 @@ print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 player_alc = get_valid_number("당신의 치사량(주량)은 얼마만큼인가요?(1~5을 선택해주세요 ) : ", 1, 5)
 
 #같이 취할 친구 찾기
-g_num = get_valid_number("함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!) : ", 0, 3)
+g_num = get_valid_number("함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!) 👤👤👤 : ", 0, 3)
 game_people = [player_name]
 people_alc = [player_alc * 2]
 drunk_alc = [0]
@@ -352,11 +349,11 @@ while(dur):
   print_remain_alc()
 
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-  print("~~~~~~~~~~~~~~오늘의 Alcohol Game~~~~~~~~~~~~~~~")
-  print("{:>27}".format("1. 지하철"))
-  print("{:>27}".format("2. 왕게임"))
-  print("{:>27}".format("3. 아파트"))
-  print("{:>27}".format("4. 영화 순위 게임"))
+  print("~~~~~~~~~~~~🎮 오늘의 Alcohol Game 🎮~~~~~~~~~~~~~")
+  print("{:>27}".format("1. 🚋 🚋 지하철 🚋 🚋"))
+  print("{:>27}".format("2. 👑 👑 왕게임 👑 👑"))
+  print("{:>27}".format("3. 🏠 🏠 아파트 🏠 🏠"))
+  print("{:>29}".format("4. 🍿 🎬 영화 순위 게임 🍿 🎬"))
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   if(game_people[0] != player_name):
     exit = input("술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 \"exit\"를, 계속하고 싶으면 아무키나 입력해 주세요 ! : ")
@@ -366,7 +363,7 @@ while(dur):
       print("게임을 종료합니다")
       sys.exit()
   else:
-    game_num = get_valid_number("{}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? : ".format(game_people[0]), 1, 4)
+    game_num = get_valid_number("🎮 {}(이 )가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨게임? 🎮: ".format(game_people[0]), 1, 4)
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print("{} 님이 게임을 선택하셨습니다! ".format(game_people[0]))
 
