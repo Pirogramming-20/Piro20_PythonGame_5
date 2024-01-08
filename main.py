@@ -27,7 +27,7 @@ def apart_game():
         hand_3 = hands_3.popleft()
         hands_3.append(hand_3)
         print(f"\n{hand_3} : {i}층!")
-
+        time.sleep(0.3)
         if i == floor_num_3:
             print(f"\n\n누가 술을 마셔 {hand_3}가(이) 술을 마셔 원샷~~~\n")
             for j in range(0, g_num):
@@ -73,7 +73,7 @@ def Game1():
   if(game_people[0] == player_name):
     betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
   else:
-    betting = rand_input(1,3)
+    betting = random.randint(1,3)
     print("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : ",betting)
 
   print('''
@@ -81,8 +81,11 @@ def Game1():
         지하철~ 지하철~ 몇호선~ 몇호선~
         🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋
         ''')
-  line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요!(1~9 중 하나를 입력) : "))
-  print(f"게임을 진행하게 될 지하철은 {line_input}호선 입니다!!!")
+  if(game_people[0] == player_name):
+    line_input = int(input("게임을 진행할 지하철의 노선을 입력하세요!(1~9 중 하나를 입력) : "))
+  else:
+    line_input = random.randint(1,9)
+  print(f"{game_people[0]}이(가 ) 선택한 게임을 진행하게 될 지하철은 {line_input}호선 입니다!!!")
   sub_now = sub_line[line_input]
   sub_now_len = len(sub_now)
   record1 = []
@@ -161,6 +164,7 @@ def game2():
   i2 = 0
   while True:
       i2 += 1
+      time.sleep(1)
       if pick_king2 == g_num + 2:
           x2 = input("지시를 입력하세요: ")
           if "술" in x2:
@@ -202,6 +206,7 @@ def Game4():
     game_sequence = "" 
 
     while True:
+        time.sleep(1)
         correct_response = ''
         for digit in str(current_number):
             if digit in ['3', '6', '9']:
