@@ -9,6 +9,11 @@ def apart_game():
     print("。　♡。 　　。　　♡。\n")
     print("\n--------!!아파트 게임을 시작합니다!!--------\n")
     hands_3 = deque(random.sample(game_people + game_people, g_num * 2))
+    if(game_people[0] == player_name):
+      betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
+    else:
+      betting = random.randint(1,3)
+    print(game_people[0],"이 이번판에 건 술은 ",betting,"잔입니다!")
 
     if game_people[0] == player_name:
         tagger_3 = player_name
@@ -32,8 +37,8 @@ def apart_game():
             print(f"\n\n누가 술을 마셔 {hand_3}가(이) 술을 마셔 원샷~~~\n")
             for j in range(0, g_num):
                 if game_people[j] == hand_3:
-                    people_alc[j] -= 1
-                    drunk_alc[j] += 1
+                    people_alc[j] -= betting
+                    drunk_alc[j] += betting
                     return
 
 
@@ -74,7 +79,7 @@ def Game1():
     betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
   else:
     betting = random.randint(1,3)
-    print("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : ",betting)
+  print(game_people[0],"이 이번판에 건 술은 ",betting,"잔입니다!")
 
   print('''
         🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋🚋
@@ -205,6 +210,12 @@ def Game4():
     player_turn = 0
     game_sequence = "" 
 
+    if(game_people[0] == player_name):
+      betting = int(input("이번판에 몇잔을 걸지 알려주세요!(1~3 중 하나를 입력) : "))
+    else:
+      betting = random.randint(1,3)
+    print(game_people[0],"이 이번판에 건 술은 ",betting,"잔입니다!")
+
     while True:
         time.sleep(1)
         correct_response = ''
@@ -247,8 +258,8 @@ def Game4():
             print(f"오답입니다! {game_people[player_turn]} 님이 게임에서 패배하셨습니다!")
             print(f"\n누가 술을 마셔 {game_people[player_turn]} 가(이) 술을 마셔 원샷~~~\n")
             # 술을 마시는 경우
-            drunk_alc[player_turn] += 1  
-            people_alc[player_turn] -= 1  
+            drunk_alc[player_turn] += betting  
+            people_alc[player_turn] -= betting
             return
 
         # 다음 사람 차례로 넘기기
